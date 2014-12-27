@@ -63,4 +63,16 @@ public class Cart {
         return items.entrySet();
     }
     
+    /**
+     * Returns string representation of object.
+     * @return String
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Set cart = this.getCart();
+        sb.append(cart);
+        
+        return sb.toString();
+    }
 }
