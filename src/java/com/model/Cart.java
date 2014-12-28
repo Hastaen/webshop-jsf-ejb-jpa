@@ -7,11 +7,15 @@ package com.model;
 
 import java.util.HashMap;
 import java.util.Set;
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 
 /**
  * Shopping cart that holds the items the user intends to buy.
  * @author Henrik
  */
+@Stateful
+@SessionScoped
 public class Cart {
     
     private HashMap items;
