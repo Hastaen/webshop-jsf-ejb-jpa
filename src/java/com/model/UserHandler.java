@@ -10,8 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 /**
  *
@@ -65,18 +64,16 @@ public class UserHandler {
      * @param isAdmin
      * @return false if user exists or connection failed, else true.
      */
-    public boolean registerUser(String username, String password, boolean isAdmin) {
+    public boolean registerUser(String username, String password, String lastname, String firstname) {
         Users result = findByUsername(username);
         
         if (!result.getUsername().equals(username)) {
             try {
-            Connection con = DriverManager.getConnection("localhost:1527", "root", "root");
-            Statement sta = con.createStatement();
-            String sql = "INSERT INTO USERS VALUES (" + username + "," + password + ", null, null, " + username + "@mail.com, " + isAdmin +");";
-            sta.executeUpdate(sql);
-            return true;
+                Users newUser = new Users(username, password, lastname, firstname);
+                em.persist(newUser);
+                return true;
             }
-            catch (SQLException e){
+            catch (EntityExistsException e){
                 System.out.println(e.getStackTrace());
                 return false;
             }
@@ -97,13 +94,13 @@ public class UserHandler {
         
         if (result.getUsername().equals(username)) {
             try {
-            Connection con = DriverManager.getConnection("localhost:1527", "root", "root");
-            Statement sta = con.createStatement();
-            String sql = "UPDATE USERS SET ISADMIN = true WHERE USERNAME = " + username + ";";
-            sta.executeUpdate(sql);
-            return true;
+                if (!result.getIsadmin()) {
+                    result.setIsadmin(true);
+                }
+                isAdmin = true;
+                return true;
             }
-            catch (SQLException e){
+            catch (IllegalArgumentException e){
                 System.out.println(e.getStackTrace());
                 return false;
             }
@@ -123,13 +120,13 @@ public class UserHandler {
         
         if (result.getUsername().equals(username)) {
             try {
-            Connection con = DriverManager.getConnection("localhost:1527", "root", "root");
-            Statement sta = con.createStatement();
-            String sql = "UPDATE USERS SET ISADMIN = false WHERE USERNAME = " + username + ";";
-            sta.executeUpdate(sql);
-            return true;
+                if (result.getIsadmin()) {
+                    result.setIsadmin(false);
+                }
+                isAdmin = false;
+                return true;
             }
-            catch (SQLException e){
+            catch (IllegalArgumentException e){
                 System.out.println(e.getStackTrace());
                 return false;
             }
