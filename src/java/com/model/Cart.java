@@ -29,13 +29,13 @@ public class Cart {
      * Adds one item to the cart.
      * @param item 
      */
-    public void addItem(Items item) {
+    public void addItem(String item) {
         if ((int)items.get(item) > 0) {
             int amount = (int)items.get(item) + 1;
             items.replace(item, amount);
         } 
         else {
-            items.put(item.getItemid(), 1);
+            items.put(item, 1);
         }
         
     }
@@ -45,13 +45,13 @@ public class Cart {
      * @param item
      * @param amount 
      */
-    public void addItem(Items item, int amount) {
+    public void addItem(String item, int amount) {
         if ((int)items.get(item) > 0) {
             amount = amount + (int)items.get(item);
             items.replace(item, amount);
         } 
         else {
-            items.put(item.getItemid(), amount);
+            items.put(item, amount);
         }
         
     }
@@ -60,7 +60,7 @@ public class Cart {
      * Removes all of specified item.
      * @param item 
      */
-    public void removeItem(Items item) {
+    public void removeItem(String item) {
         items.remove(item);
     }
     
@@ -69,7 +69,7 @@ public class Cart {
      * @param item
      * @param amount 
      */
-    public void removeItem(Items item, int amount) {
+    public void removeItem(String item, int amount) {
         amount = amount - (int)items.get(item);
         items.replace(item, amount);
     }
