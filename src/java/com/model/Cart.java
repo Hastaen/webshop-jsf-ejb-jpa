@@ -23,7 +23,9 @@ public class Cart {
     /**
      * Default constructor
      */
-    public Cart() {}
+    public Cart() {
+        items = new HashMap(5);
+    }
     
     /**
      * Adds one item to the cart.
