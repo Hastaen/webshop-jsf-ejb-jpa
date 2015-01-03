@@ -26,12 +26,34 @@ public class Cart {
     public Cart() {}
     
     /**
+     * Adds one item to the cart.
+     * @param item 
+     */
+    public void addItem(Items item) {
+        if ((int)items.get(item) > 0) {
+            int amount = (int)items.get(item) + 1;
+            items.replace(item, amount);
+        } 
+        else {
+            items.put(item.getItemid(), 1);
+        }
+        
+    }
+    
+    /**
      * Adds specfied amount of an item to the cart.
      * @param item
      * @param amount 
      */
     public void addItem(Items item, int amount) {
-        items.put(item.getItemid(), amount);
+        if ((int)items.get(item) > 0) {
+            amount = amount + (int)items.get(item);
+            items.replace(item, amount);
+        } 
+        else {
+            items.put(item.getItemid(), amount);
+        }
+        
     }
     
     /**
