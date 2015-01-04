@@ -26,6 +26,56 @@ public class Admin {
     public Admin() {}
     
     /**
+     * Sets user as admin.
+     * @param username
+     * @return true if successful, else false.
+     */
+    public boolean setAdmin(String username) {
+        try {
+            Query setAdminQuery = em.createNamedQuery("Users.findByUsername", Users.class);
+            setAdminQuery.setParameter("username", username);
+            Users result = (Users)setAdminQuery.getSingleResult();
+            if (result.getUsername().equals(username) && !result.getIsadmin()) {
+            result.setIsadmin(Boolean.TRUE);
+            em.merge(result);
+            return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (IllegalArgumentException e){
+                System.out.println(e.getStackTrace());
+                return false;
+        }
+    }
+    
+    /**
+     * Sets user as not admin.
+     * @param username
+     * @return true if successful, else false.
+     */
+    public boolean removeAdmin(String username) {
+        try {
+            Query setAdminQuery = em.createNamedQuery("Users.findByUsername", Users.class);
+            setAdminQuery.setParameter("username", username);
+            Users result = (Users)setAdminQuery.getSingleResult();
+            if (result.getUsername().equals(username) && result.getIsadmin()) {
+            result.setIsadmin(Boolean.FALSE);
+            em.merge(result);
+            return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (IllegalArgumentException e){
+                System.out.println(e.getStackTrace());
+                return false;
+        }
+    }
+    
+    /**
      * Sets user as banned.
      * @param username Users username.
      * @return True if ban was successful, otherwise false.
