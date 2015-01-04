@@ -75,9 +75,9 @@ public class Admin {
      * @param name Name of new item.
      * @return True if operation was successful, otherwise false.
      */
-    public boolean addItem(String name) {
+    public boolean addItem(String name, int itemstock, int itemprice, String itemdesc) {
         try {
-            Items newItem = new Items();
+            Items newItem = new Items(name, itemstock, itemprice, itemdesc);
             em.persist(newItem);
             return true;
         }
